@@ -1,14 +1,9 @@
-from flask import Flask
-import os
-app = Flask(__name__)
-
-@app.route('/')
-def hello_geek():
-    return 'successfully deployed python application through jenkins!!!!!!!!!, added webhook'
-@app.route('/hi')
-def hell():
-    return '<h1>Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii from Flask & Docker</h1>'
-
-if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
-    app.run(debug=True, host='0.0.0.0', port=port)
+with open("index.html", "w") as f:
+    f.write("""
+    <html>
+        <head><title>CI/CD Deployment using GitHub Actions</title></head>
+        <body>
+            <h1>Hureeee.........!!!!!! CI/CD pipeline deployed using GitHub Actions</h1>
+        </body>
+    </html>
+    """)

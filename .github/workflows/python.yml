@@ -1,4 +1,4 @@
-name: Deploy Python Project to S3
+name: Deploy to AWS S3 (Static Website)
 
 on:
   push:
@@ -10,28 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      # 1️⃣ Checkout the Repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2️⃣ Setupp Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
-      - name: Install dependencies
+      # 3️⃣ Run Python to Generate index.html
+      - name: Generate index.html
         run: |
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          fi
+          python app.py
+          ls -la   # Debug: confirm file exists
 
-      # OPTIONAL: run tests (recommended)
-      - name: Run tests
-        run: |
-          if [ -f pytest.ini ] || [ -d tests ]; then
-            pip install pytest
-            pytest || true
-          fi
-
+      # 4️⃣ Configure AWS Credentials
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -39,13 +34,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # ✅ Deploy build/static files to S3
-      - name: Deploy to S3
+      # 5️⃣ Upload Only index.html to S3
+      - name: Upload to S3
         run: |
-          aws s3 sync . s3://${{ secrets.S3_BUCKET }} \
-            --delete \
-            --exclude ".git/*" \
-            --exclude ".github/*" \
-            --exclude "__pycache__/*" \
-            --exclude "*.pyc" \
-            --cache-control "max-age=0,no-cache,no-store,must-revalidate"
+          aws s3 cp index.html s3://${{ secrets.S3_BUCKET }}/index.html \
+            --content-type text/html
+
+      # 6️⃣ Success Message
+      - name: Deployment complete
+        run: echo "Hureeeee......Successfully deployed to S3 🚀"

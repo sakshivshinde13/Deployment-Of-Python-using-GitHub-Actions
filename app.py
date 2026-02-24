@@ -4,7 +4,7 @@ html_content = """
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Python CI/CD to S3</title>
+    <title>Python CI/CD Pipeline using S3 and Github</title>
 </head>
 <body>
     <h1>✅ SUCCESS: Python generated this page!</h1>

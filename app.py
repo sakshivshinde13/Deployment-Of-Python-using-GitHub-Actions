@@ -7,7 +7,7 @@ html_content = """
     <title>Python CI/CD Pipeline using S3 and Github</title>
 </head>
 <body>
-    <h1>✅ SUCCESS: Python generated this page!</h1>
+    <h1> SUCCESS: Python generated this page!</h1>
     <p>Deployed using GitHub Actions to AWS S3.</p>
 </body>
 </html>
@@ -16,4 +16,4 @@ html_content = """
 with open("index.html", "w") as f:
     f.write(html_content)
 
-print("✅ index.html generated successfully")
+print(" index.html generated successfully")
